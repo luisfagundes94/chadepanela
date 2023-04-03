@@ -26,7 +26,8 @@ object MongoDbDatabase {
                 price = document.getDouble("price").toFloat(),
                 url = document.getString("url"),
                 roomType = RoomType.valueOf(document.getString("roomType")),
-                status = ItemStatus.valueOf(document.getString("status"))
+                status = ItemStatus.valueOf(document.getString("status")),
+                quantity = document.getInteger("quantityNeeded")
             )
         }
     }

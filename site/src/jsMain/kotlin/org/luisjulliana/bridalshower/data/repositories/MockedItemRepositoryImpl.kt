@@ -13,7 +13,8 @@ class MockedItemRepositoryImpl : ItemRepository {
             price = 4200f,
             url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
             roomType = RoomType.BEDROOM,
-            status = ItemStatus.AVAILABLE
+            status = ItemStatus.AVAILABLE,
+            quantity = 2
         ),
         Item(
             id = "1",
@@ -22,7 +23,8 @@ class MockedItemRepositoryImpl : ItemRepository {
             price = 4200f,
             url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
             roomType = RoomType.BEDROOM,
-            status = ItemStatus.AVAILABLE
+            status = ItemStatus.AVAILABLE,
+            quantity = 2
         ),
         Item(
             id = "1",
@@ -31,7 +33,8 @@ class MockedItemRepositoryImpl : ItemRepository {
             price = 4200f,
             url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
             roomType = RoomType.BEDROOM,
-            status = ItemStatus.AVAILABLE
+            status = ItemStatus.AVAILABLE,
+            quantity = 2
         ),
         Item(
             id = "1",
@@ -40,7 +43,8 @@ class MockedItemRepositoryImpl : ItemRepository {
             price = 4200f,
             url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
             roomType = RoomType.BEDROOM,
-            status = ItemStatus.AVAILABLE
+            status = ItemStatus.AVAILABLE,
+            quantity = 2
         ),
         Item(
             id = "1",
@@ -49,7 +53,8 @@ class MockedItemRepositoryImpl : ItemRepository {
             price = 4200f,
             url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
             roomType = RoomType.BEDROOM,
-            status = ItemStatus.AVAILABLE
+            status = ItemStatus.AVAILABLE,
+            quantity = 2
         ),
         Item(
             id = "1",
@@ -58,7 +63,8 @@ class MockedItemRepositoryImpl : ItemRepository {
             price = 4200f,
             url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
             roomType = RoomType.BEDROOM,
-            status = ItemStatus.AVAILABLE
+            status = ItemStatus.AVAILABLE,
+            quantity = 2
         )
     )
 

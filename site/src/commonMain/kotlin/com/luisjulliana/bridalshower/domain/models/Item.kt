@@ -12,5 +12,6 @@ data class Item(
     val price: Float,
     val url: String,
     val roomType: RoomType,
-    val status: ItemStatus
+    val status: ItemStatus,
+    val quantity: Int
 )

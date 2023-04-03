@@ -24,7 +24,6 @@ class WishlistViewModel(
     private fun fetchItems() {
         coroutineScope.launch {
             getItems().let { items ->
-                println(items)
                 _uiState.value = WishlistUiState(items = items)
             }
         }
