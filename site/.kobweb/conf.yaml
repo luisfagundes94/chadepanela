@@ -1,0 +1,14 @@
+site:
+  title: "Bridalshower"
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/developmentExecutable/bridalshower.js"
+      api: "build/libs/bridalshower.jar"
+    prod:
+      script: "build/distributions/bridalshower.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080
