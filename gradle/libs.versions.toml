@@ -1,7 +1,11 @@
 [versions]
 jetbrains-compose = "1.3.1"
-kobweb = "0.12.4"
+kobweb = "0.12.3"
 kotlin = "1.8.10"
+koin = "3.4.0"
+kmongo = "4.8.0"
+gson = "2.10.1"
+kotlinx-serialization = "1.4.0"
 
 [libraries]
 kobweb-api = { module = "com.varabyte.kobweb:kobweb-api", version.ref = "kobweb" }
@@ -9,9 +13,16 @@ kobweb-core = { module = "com.varabyte.kobweb:kobweb-core ", version.ref = "kobw
 kobweb-silk-core = { module = "com.varabyte.kobweb:kobweb-silk", version.ref = "kobweb" }
 kobweb-silk-icons-fa = { module = "com.varabyte.kobweb:kobweb-silk-icons-fa", version.ref = "kobweb" }
 kobwebx-markdown = { module = "com.varabyte.kobwebx:kobwebx-markdown", version.ref = "kobweb" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+kmongo = { module = "org.litote.kmongo:kmongo", version.ref = "kmongo" }
+kmongo-coroutine = { module = "org.litote.kmongo:kmongo-coroutine", version.ref = "kmongo" }
+kmongo-id-jackson = { module = "org.litote.kmongo:kmongo-id-jackson", version.ref = "kmongo" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
 
 [plugins]
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 kobweb-application = { id = "com.varabyte.kobweb.application", version.ref = "kobweb" }
 kobwebx-markdown = { id = "com.varabyte.kobwebx.markdown", version.ref = "kobweb" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

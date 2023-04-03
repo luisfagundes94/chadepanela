@@ -1,11 +1,13 @@
 package org.luisjulliana.bridalshower.pages
 
 import androidx.compose.runtime.*
+import com.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.varabyte.kobweb.core.Page
 
 @Page
 @Composable
 fun HomePage() {
-    // TODO: Add content here
-    println("Hello World!")
+    PageLayout("") {
+
+    }
 }
