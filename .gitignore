@@ -25,3 +25,7 @@ kotlin-js-store
 # Gradle ignores
 .gradle
 
+/.idea/misc.xml
+/site/src/jsMain/kotlin/org/luisjulliana/bridalshower/components/README.md
+/site/src/jsMain/kotlin/org/luisjulliana/bridalshower/pages/README.md
+/.idea/vcs.xml
