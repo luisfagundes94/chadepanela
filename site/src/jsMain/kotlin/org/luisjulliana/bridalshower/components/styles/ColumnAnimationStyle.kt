@@ -1,7 +1,6 @@
 package org.luisjulliana.bridalshower.components.styles
 
-import com.varabyte.kobweb.compose.css.CSSTransition
-import com.varabyte.kobweb.compose.css.transition
+import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
@@ -26,6 +25,7 @@ val ItemScaleAnimation by ComponentStyle {
             transform {
                 scale(1.0)
             }
+            property("z-index", "1")
         }
     }
     hover {
@@ -38,8 +38,10 @@ val ItemScaleAnimation by ComponentStyle {
                 )
             )
             transform {
-                scale(1.2)
+                scale(1.1)
             }
+            cursor(Cursor.Pointer)
+            property("z-index", "2")
         }
     }
 }
