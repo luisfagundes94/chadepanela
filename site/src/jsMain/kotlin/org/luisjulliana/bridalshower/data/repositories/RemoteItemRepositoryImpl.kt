@@ -1,5 +1,6 @@
 package org.luisjulliana.bridalshower.data.repositories
 
+import com.luisjulliana.bridalshower.core.DataState
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.luisjulliana.bridalshower.domain.repositories.ItemRepository
 import kotlinx.serialization.decodeFromString
@@ -9,9 +10,15 @@ import org.luisjulliana.bridalshower.data.service.ItemService
 class RemoteItemRepositoryImpl(
     private val itemService: ItemService
 ): ItemRepository {
-    override suspend fun getItems(): List<Item> {
+    override suspend fun getItems(): DataState<List<Item>> {
         val jsonString = itemService.fetchItems()?.decodeToString()
-        return jsonString?.let { Json.decodeFromString(it) } ?: emptyList()
+
+        return try {
+            val result: List<Item>? = jsonString?.let { Json.decodeFromString(it) }
+            if (result.isNullOrEmpty()) DataState.Empty else DataState.Success(result)
+        } catch (exception: Exception) {
+            DataState.Error(exception)
+        }
     }
 
     override suspend fun removeItem(id: Int) {
@@ -25,5 +32,4 @@ class RemoteItemRepositoryImpl(
     override suspend fun updateItem(item: Item) {
         TODO("Not yet implemented")
     }
-
 }

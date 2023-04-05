@@ -1,7 +1,8 @@
 package org.luisjulliana.bridalshower.presentation
 
+import com.luisjulliana.bridalshower.core.DataState
+import com.luisjulliana.bridalshower.domain.models.Item
 import com.luisjulliana.bridalshower.domain.usecases.GetItems
-import com.luisjulliana.bridalshower.presentation.WishlistUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +24,20 @@ class WishlistViewModel(
 
     private fun fetchItems() {
         coroutineScope.launch {
-            getItems().let { items ->
-                _uiState.value = WishlistUiState(items = items)
+            handleResult(getItems())
+        }
+    }
+
+    private fun handleResult(data: DataState<List<Item>>) {
+        when (data) {
+            is DataState.Success -> {
+                _uiState.value = WishlistUiState(items = data.result)
+            }
+            is DataState.Error -> {
+                _uiState.value = WishlistUiState(hasError = true)
+            }
+            is DataState.Empty -> {
+                _uiState.value = WishlistUiState(isEmpty = true)
             }
         }
     }

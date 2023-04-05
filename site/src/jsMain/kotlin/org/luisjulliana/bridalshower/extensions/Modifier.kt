@@ -1,4 +1,4 @@
-package com.luisjulliana.bridalshower.extensions
+package org.luisjulliana.bridalshower.extensions
 
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
@@ -10,6 +10,7 @@ fun Modifier.openExternalLinkOnClick(
 ) =
     attrsModifier {
         onClick {
+            if (url.isBlank()) return@onClick
             window.open(url, target)
         }
     }

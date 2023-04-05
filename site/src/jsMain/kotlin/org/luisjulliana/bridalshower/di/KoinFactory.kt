@@ -1,4 +1,4 @@
-package com.luisjulliana.bridalshower.di
+package org.luisjulliana.bridalshower.di
 
 import org.luisjulliana.bridalshower.presentation.WishlistViewModel
 import org.koin.core.component.KoinComponent

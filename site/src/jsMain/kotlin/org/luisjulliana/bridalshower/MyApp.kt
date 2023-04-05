@@ -1,7 +1,7 @@
 package org.luisjulliana.bridalshower
 
 import androidx.compose.runtime.Composable
-import com.luisjulliana.bridalshower.di.appModule
+import org.luisjulliana.bridalshower.di.appModule
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily

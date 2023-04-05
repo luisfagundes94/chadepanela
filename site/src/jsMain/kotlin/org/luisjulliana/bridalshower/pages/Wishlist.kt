@@ -2,18 +2,17 @@ package org.luisjulliana.bridalshower.pages
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.luisjulliana.bridalshower.components.widgets.CustomCheckbox
-import com.luisjulliana.bridalshower.di.KoinFactory
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
-import com.luisjulliana.bridalshower.extensions.openExternalLinkOnClick
+import org.luisjulliana.bridalshower.extensions.openExternalLinkOnClick
 import com.luisjulliana.bridalshower.styles.GridStyleVariant
 import com.luisjulliana.bridalshower.styles.SubTitleStyle
 import com.luisjulliana.bridalshower.styles.TitleStyle
-import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.TextAlign
-import com.varabyte.kobweb.compose.css.outline
+import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -24,35 +23,89 @@ import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.style.breakpoint.ResponsiveValues
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.overflow
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
+import org.luisjulliana.bridalshower.di.KoinFactory
+import org.luisjulliana.bridalshower.presentation.WishlistUiState
+
+private const val INVALID_QUANTITY = -1
 
 @Page
 @Composable
 fun Wishlist() {
-    val uiState = KoinFactory.wishlistViewModel.uiState.collectAsState()
+    val uiState by KoinFactory.wishlistViewModel.uiState.collectAsState()
     PageLayout("") {
-        Div(
-            attrs = {
-                style {
-                    borderRadius(10.px)
-                    padding(20.px)
-                    width(90.percent)
-                    outline(
-                        width = 2.px,
-                        style = LineStyle.Solid,
-                        color = rgb(235, 235, 235)
-                    )
-                }
-            }
-        ) {
-            Row {
-                Filters()
-                Items(items = uiState.value.items)
+        DivContainer {
+            when {
+                uiState.isLoading -> Loading()
+                uiState.isEmpty -> Empty()
+                uiState.items.isNotEmpty() -> Items(uiState)
+                uiState.hasError -> Error()
             }
         }
     }
+}
+
+@Composable
+private fun DivContainer(content: @Composable () -> Unit) {
+    Div(
+        attrs = {
+            style {
+                borderRadius(10.px)
+                padding(20.px)
+                minHeight(20.em)
+                width(90.percent)
+                outline(
+                    width = 2.px,
+                    style = LineStyle.Solid,
+                    color = rgb(235, 235, 235)
+                )
+            }
+        }
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            content.invoke()
+        }
+    }
+}
+
+@Composable
+private fun Items(uiState: WishlistUiState) {
+    Row {
+        Filters()
+        Items(items = uiState.items)
+    }
+}
+
+@Composable
+private fun Loading() {
+    SpanText(
+        text = "Carregando...",
+        modifier = Modifier.color(Color.gray)
+    )
+}
+
+@Composable
+private fun Error() {
+    SpanText(
+        text = "Error",
+        modifier = Modifier.color(Color.gray)
+    )
+}
+
+@Composable
+private fun Empty() {
+    SpanText(
+        text = "Nenhum item encontrado :(",
+        modifier = Modifier.color(Color.gray)
+    )
 }
 
 @Composable
@@ -117,35 +170,63 @@ private fun Item(item: Item) {
             .padding(leftRight = 20.px)
             .openExternalLinkOnClick(url = item.url)
     ) {
-        Img(
-            src = item.imageUrl,
-            alt = "Item Image",
-            attrs = {
-                style {
-                    width(100.percent)
-                    backgroundSize("contain")
-                    backgroundRepeat("no-repeat")
-                    backgroundPosition("center")
-                }
-            }
-        )
+        ItemImage(item.imageUrl)
         SpanText(
             text = item.name,
             modifier = Modifier
                 .textAlign(TextAlign.Start)
-                .margin(bottom = 10.px)
+                .margin(topBottom = .3.em)
         )
         SpanText(
             text = "R$${item.price}",
             modifier = Modifier
                 .fontWeight(FontWeight.SemiBold)
-                .margin(bottom = 10.px)
+                .margin(bottom = .3.em)
         )
         SpanText(
-            text = "Precisamos de 0/2",
+            text = getItemQuantityText(quantity = item.quantity),
             modifier = Modifier
                 .fontSize(12.px)
                 .color(rgb(60, 60, 60))
+        )
+    }
+}
+private fun getItemQuantityText(quantity: Int): String {
+    val result =  if (quantity == INVALID_QUANTITY) "" else "Precisamos de $quantity"
+    println("result: $result")
+    return result
+}
+
+
+@OptIn(ExperimentalComposeWebApi::class)
+@Composable
+private fun ItemImage(imageUrl: String) {
+    Div(
+        attrs = {
+            style {
+                width(200.px)
+                height(200.px)
+                position(Position.Relative)
+                overflow(Overflow.Hidden)
+            }
+        }
+    ) {
+        Img(
+            src = imageUrl,
+            alt = "Item Image",
+            attrs = {
+                style {
+                    width(100.percent)
+                    height(100.percent)
+                    objectFit(ObjectFit.Cover)
+                    position(Position.Absolute)
+                    top(50.percent)
+                    left(50.percent)
+                    transform {
+                        translate((-50).percent, (-50).percent)
+                    }
+                }
+            }
         )
     }
 }
