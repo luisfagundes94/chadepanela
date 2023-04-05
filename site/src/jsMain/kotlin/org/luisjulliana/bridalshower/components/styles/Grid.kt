@@ -1,4 +1,4 @@
-package com.luisjulliana.bridalshower.styles
+package org.luisjulliana.bridalshower.components.styles
 
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.gap

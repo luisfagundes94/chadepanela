@@ -4,10 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
-import org.luisjulliana.bridalshower.components.widgets.CustomCheckbox
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
-import com.luisjulliana.bridalshower.styles.GridStyleVariant
 import com.luisjulliana.bridalshower.styles.SubTitleStyle
 import com.luisjulliana.bridalshower.styles.TitleStyle
 import com.varabyte.kobweb.compose.css.*
@@ -18,17 +16,25 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.silk.components.animation.Keyframes
+import com.varabyte.kobweb.silk.components.animation.toAnimation
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
+import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.breakpoint.ResponsiveValues
+import com.varabyte.kobweb.silk.components.style.hover
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
+import org.luisjulliana.bridalshower.components.animations.scaleSize
+import org.luisjulliana.bridalshower.components.styles.GridStyleVariant
+import org.luisjulliana.bridalshower.components.styles.ItemScaleAnimation
+import org.luisjulliana.bridalshower.components.widgets.CustomCheckbox
 import org.luisjulliana.bridalshower.components.widgets.Empty
-import org.luisjulliana.bridalshower.components.widgets.Loading
 import org.luisjulliana.bridalshower.components.widgets.Error
+import org.luisjulliana.bridalshower.components.widgets.Loading
 import org.luisjulliana.bridalshower.di.KoinFactory
 import org.luisjulliana.bridalshower.extensions.openExternalLinkOnClick
 import org.luisjulliana.bridalshower.presentation.WishlistUiState
@@ -142,11 +148,12 @@ private fun Items(items: List<Item>) {
 private fun Item(item: Item) {
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier
+        modifier = ItemScaleAnimation.toModifier()
             .width(250.px)
             .height(300.px)
             .padding(leftRight = 20.px)
             .openExternalLinkOnClick(url = item.url)
+
     ) {
         ItemImage(item.imageUrl)
         SpanText(
@@ -170,9 +177,8 @@ private fun Item(item: Item) {
     }
 }
 private fun getItemQuantityText(quantity: Int): String {
-    val result =  if (quantity == INVALID_QUANTITY) "" else "Precisamos de $quantity"
-    println("result: $result")
-    return result
+    return if (quantity == INVALID_QUANTITY) ""
+    else "Precisamos de $quantity"
 }
 
 
