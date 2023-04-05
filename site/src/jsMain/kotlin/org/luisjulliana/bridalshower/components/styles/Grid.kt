@@ -7,6 +7,6 @@ import org.jetbrains.compose.web.css.px
 
 val GridStyleVariant = SimpleGridStyle.addVariant("grid") {
     base {
-        Modifier.gap(5.px)
+        Modifier.gap(10.px)
     }
 }
