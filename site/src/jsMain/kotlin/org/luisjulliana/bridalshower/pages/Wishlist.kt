@@ -4,10 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
-import com.luisjulliana.bridalshower.components.widgets.CustomCheckbox
+import org.luisjulliana.bridalshower.components.widgets.CustomCheckbox
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
-import org.luisjulliana.bridalshower.extensions.openExternalLinkOnClick
 import com.luisjulliana.bridalshower.styles.GridStyleVariant
 import com.luisjulliana.bridalshower.styles.SubTitleStyle
 import com.luisjulliana.bridalshower.styles.TitleStyle
@@ -25,10 +24,13 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.overflow
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
+import org.luisjulliana.bridalshower.components.widgets.Empty
+import org.luisjulliana.bridalshower.components.widgets.Loading
+import org.luisjulliana.bridalshower.components.widgets.Error
 import org.luisjulliana.bridalshower.di.KoinFactory
+import org.luisjulliana.bridalshower.extensions.openExternalLinkOnClick
 import org.luisjulliana.bridalshower.presentation.WishlistUiState
 
 private const val INVALID_QUANTITY = -1
@@ -82,30 +84,6 @@ private fun Items(uiState: WishlistUiState) {
         Filters()
         Items(items = uiState.items)
     }
-}
-
-@Composable
-private fun Loading() {
-    SpanText(
-        text = "Carregando...",
-        modifier = Modifier.color(Color.gray)
-    )
-}
-
-@Composable
-private fun Error() {
-    SpanText(
-        text = "Error",
-        modifier = Modifier.color(Color.gray)
-    )
-}
-
-@Composable
-private fun Empty() {
-    SpanText(
-        text = "Nenhum item encontrado :(",
-        modifier = Modifier.color(Color.gray)
-    )
 }
 
 @Composable

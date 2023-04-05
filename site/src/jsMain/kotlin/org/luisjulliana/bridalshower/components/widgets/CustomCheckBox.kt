@@ -1,4 +1,4 @@
-package com.luisjulliana.bridalshower.components.widgets
+package org.luisjulliana.bridalshower.components.widgets
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.TextAlign
