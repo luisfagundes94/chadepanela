@@ -16,19 +16,14 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
-import com.varabyte.kobweb.silk.components.animation.Keyframes
-import com.varabyte.kobweb.silk.components.animation.toAnimation
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.breakpoint.ResponsiveValues
-import com.varabyte.kobweb.silk.components.style.hover
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Img
-import org.luisjulliana.bridalshower.components.animations.scaleSize
 import org.luisjulliana.bridalshower.components.styles.GridStyleVariant
 import org.luisjulliana.bridalshower.components.styles.ItemScaleAnimation
 import org.luisjulliana.bridalshower.components.widgets.CustomCheckbox
@@ -149,9 +144,17 @@ private fun Item(item: Item) {
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = ItemScaleAnimation.toModifier()
+            .backgroundColor(Color.white)
             .width(250.px)
-            .height(300.px)
-            .padding(leftRight = 20.px)
+            .padding(bottom = 15.px)
+            .borderRadius(topLeft = 10.px, bottomRight = 10.px)
+            .boxShadow(
+                offsetX = 0.px,
+                offsetY = 0.px,
+                blurRadius = 5.px,
+                spreadRadius = 0.px,
+                color = rgb(200, 200, 200)
+            )
             .openExternalLinkOnClick(url = item.url)
 
     ) {
@@ -161,26 +164,27 @@ private fun Item(item: Item) {
             modifier = Modifier
                 .textAlign(TextAlign.Start)
                 .margin(topBottom = .3.em)
+                .padding(leftRight = 15.px)
         )
         SpanText(
             text = "R$${item.price}",
             modifier = Modifier
                 .fontWeight(FontWeight.SemiBold)
-                .margin(bottom = .3.em)
+                .padding(leftRight = 15.px)
         )
         SpanText(
             text = getItemQuantityText(quantity = item.quantity),
             modifier = Modifier
                 .fontSize(12.px)
                 .color(rgb(60, 60, 60))
+                .padding(leftRight = 15.px)
         )
     }
 }
 private fun getItemQuantityText(quantity: Int): String {
-    return if (quantity == INVALID_QUANTITY) ""
+    return if (quantity == INVALID_QUANTITY) "A vontade"
     else "Precisamos de $quantity"
 }
-
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
@@ -188,7 +192,13 @@ private fun ItemImage(imageUrl: String) {
     Div(
         attrs = {
             style {
-                width(200.px)
+                borderRadius(
+                    topLeft = 10.px,
+                    topRight = 10.px,
+                    bottomRight = 0.px,
+                    bottomLeft = 0.px
+                )
+                width(100.percent)
                 height(200.px)
                 position(Position.Relative)
                 overflow(Overflow.Hidden)
