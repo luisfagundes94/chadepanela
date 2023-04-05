@@ -21,7 +21,7 @@ object ItemMapper {
         )
     }
 }
-private fun getQuantity(quantity: String?): Int {
-    return if (quantity.isNullOrBlank()) INVALID_QUANTITY else quantity.toInt()
-}
+private fun getQuantity(quantity: String?) =
+    if (quantity.isNullOrBlank()) INVALID_QUANTITY
+    else quantity.toInt()
 
