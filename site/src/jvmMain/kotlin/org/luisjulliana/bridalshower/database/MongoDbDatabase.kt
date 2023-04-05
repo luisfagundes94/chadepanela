@@ -14,13 +14,14 @@ private const val DATABASE_NAME = "chadepanela"
 object MongoDbDatabase {
 
     suspend fun getItems(): List<Item> {
-        val client = MongoClients.create(getSettings())
+        val client = MongoClients.create(setUpSettings())
         val database = client.getDatabase(DATABASE_NAME)
         val itemsCollection: MongoCollection<Document> = database.getCollection("items")
+
         return itemsCollection.find().toList().mapToDomain()
     }
 
-    private fun getSettings() = MongoClientSettings.builder()
+    private fun setUpSettings() = MongoClientSettings.builder()
         .applyConnectionString(ConnectionString(CONNECTION_STRING))
         .build()
 }
