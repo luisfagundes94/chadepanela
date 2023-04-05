@@ -1,8 +1,6 @@
 package org.luisjulliana.bridalshower.pages
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
@@ -141,10 +139,13 @@ private fun Items(items: List<Item>) {
 
 @Composable
 private fun Item(item: Item) {
+    val isItemAvailable by remember { mutableStateOf(item.status == ItemStatus.AVAILABLE) }
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = ItemScaleAnimation.toModifier()
             .backgroundColor(Color.white)
+            .opacity(if (isItemAvailable) 1f else .5f)
             .width(250.px)
             .padding(bottom = 15.px)
             .borderRadius(topLeft = 10.px, bottomRight = 10.px)
@@ -155,10 +156,15 @@ private fun Item(item: Item) {
                 spreadRadius = 0.px,
                 color = rgb(200, 200, 200)
             )
-            .openExternalLinkOnClick(url = item.url)
+            .openExternalLinkOnClick(
+                url = item.url,
+                isItemAvailable = isItemAvailable
+            )
 
     ) {
-        ItemImage(item.imageUrl)
+        ItemImage(
+            imageUrl = item.imageUrl
+        )
         SpanText(
             text = item.name,
             modifier = Modifier
@@ -173,7 +179,10 @@ private fun Item(item: Item) {
                 .padding(leftRight = 15.px)
         )
         SpanText(
-            text = getItemQuantityText(quantity = item.quantity),
+            text = getItemQuantityText(
+                quantity = item.quantity,
+                itemStatus = item.status
+            ),
             modifier = Modifier
                 .fontSize(12.px)
                 .color(rgb(60, 60, 60))
@@ -181,8 +190,13 @@ private fun Item(item: Item) {
         )
     }
 }
-private fun getItemQuantityText(quantity: Int): String {
+
+private fun getItemQuantityText(
+    quantity: Int,
+    itemStatus: ItemStatus
+): String {
     return if (quantity == INVALID_QUANTITY) "A vontade"
+    else if (itemStatus == ItemStatus.TAKEN) "Indisponível"
     else "Precisamos de $quantity"
 }
 
