@@ -1,6 +1,7 @@
 package org.luisjulliana.bridalshower.presentation
 
 import com.luisjulliana.bridalshower.core.DataState
+import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.luisjulliana.bridalshower.domain.usecases.GetItems
 import kotlinx.coroutines.CoroutineScope
@@ -22,9 +23,9 @@ class WishlistViewModel(
         fetchItems()
     }
 
-    private fun fetchItems() {
+    fun fetchItems(itemStatus: ItemStatus? = null) {
         coroutineScope.launch {
-            handleResult(getItems())
+            handleResult(getItems(itemStatus))
         }
     }
 

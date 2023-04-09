@@ -12,6 +12,6 @@ data class Item(
     val price: String,
     val url: String,
     val roomType: RoomType,
-    val status: ItemStatus,
+    val status: String  ,
     val quantity: Int
 )

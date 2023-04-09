@@ -1,5 +1,6 @@
 package org.luisjulliana.bridalshower.pages
 
+import StatusCheckBoxes
 import androidx.compose.runtime.*
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
@@ -31,19 +32,26 @@ import org.luisjulliana.bridalshower.components.widgets.Loading
 import org.luisjulliana.bridalshower.di.KoinFactory
 import org.luisjulliana.bridalshower.extensions.openExternalLinkOnClick
 import org.luisjulliana.bridalshower.presentation.WishlistUiState
+import org.luisjulliana.bridalshower.presentation.WishlistViewModel
 
 private const val INVALID_QUANTITY = -1
 
 @Page
 @Composable
 fun Wishlist() {
-    val uiState by KoinFactory.wishlistViewModel.uiState.collectAsState()
+    val viewModel = KoinFactory.wishlistViewModel
+    val uiState by viewModel.uiState.collectAsState()
+
     PageLayout("") {
         DivContainer {
             when {
                 uiState.isLoading -> Loading()
                 uiState.isEmpty -> Empty()
-                uiState.items.isNotEmpty() -> Items(uiState)
+                uiState.items.isNotEmpty() -> Items(
+                    uiState = uiState,
+                    viewModel = viewModel
+                )
+
                 uiState.hasError -> Error()
             }
         }
@@ -78,15 +86,22 @@ private fun DivContainer(content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun Items(uiState: WishlistUiState) {
+private fun Items(
+    uiState: WishlistUiState,
+    viewModel: WishlistViewModel
+) {
     Row {
-        Filters()
+        Filters(
+            viewModel = viewModel
+        )
         Items(items = uiState.items)
     }
 }
 
 @Composable
-private fun Filters() {
+private fun Filters(
+    viewModel: WishlistViewModel
+) {
     Column(
         modifier = Modifier.padding(right = 50.px)
     ) {
@@ -107,7 +122,6 @@ private fun Filters() {
             "Outros"
         )
         CheckBoxRooms(
-            checked = false,
             onCheckedChanged = {},
             rooms = rooms
         )
@@ -116,11 +130,8 @@ private fun Filters() {
             modifier = TitleStyle.toModifier(SubTitleStyle)
                 .margin(top = 15.px, bottom = 10.px)
         )
-        val status = listOf(ItemStatus.AVAILABLE, ItemStatus.TAKEN)
-        CheckBoxStatus(
-            status = status,
-            onCheckedChanged = {},
-            checked = false
+        StatusCheckBoxes(
+            viewModel = viewModel
         )
     }
 }
@@ -139,7 +150,7 @@ private fun Items(items: List<Item>) {
 
 @Composable
 private fun Item(item: Item) {
-    val isItemAvailable by remember { mutableStateOf(item.status == ItemStatus.AVAILABLE) }
+    val isItemAvailable by remember { mutableStateOf(item.status == ItemStatus.AVAILABLE.status) }
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -193,10 +204,10 @@ private fun Item(item: Item) {
 
 private fun getItemQuantityText(
     quantity: Int,
-    itemStatus: ItemStatus
+    itemStatus: String
 ): String {
     return if (quantity == INVALID_QUANTITY) "A vontade"
-    else if (itemStatus == ItemStatus.TAKEN) "Indisponível"
+    else if (itemStatus == ItemStatus.TAKEN.status) ItemStatus.TAKEN.status
     else "Precisamos de $quantity"
 }
 
@@ -242,29 +253,14 @@ private fun ItemImage(imageUrl: String) {
 @Composable
 fun CheckBoxRooms(
     rooms: List<String>,
-    checked: Boolean = false,
     onCheckedChanged: (Boolean) -> Unit = {}
 ) {
     rooms.forEach { room ->
         CustomCheckbox(
-            checked = checked,
             onCheckedChange = onCheckedChanged,
             label = room
         )
     }
 }
 
-@Composable
-fun CheckBoxStatus(
-    status: List<ItemStatus>,
-    checked: Boolean = false,
-    onCheckedChanged: (Boolean) -> Unit = {}
-) {
-    status.forEach { itemStatus ->
-        CustomCheckbox(
-            label = itemStatus.status,
-            checked = checked,
-            onCheckedChange = onCheckedChanged
-        )
-    }
-}
+

@@ -16,7 +16,6 @@ kobwebx-markdown = { module = "com.varabyte.kobwebx:kobwebx-markdown", version.r
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kmongo = { module = "org.litote.kmongo:kmongo", version.ref = "kmongo" }
 kmongo-coroutine = { module = "org.litote.kmongo:kmongo-coroutine", version.ref = "kmongo" }
-kmongo-id-jackson = { module = "org.litote.kmongo:kmongo-id-jackson", version.ref = "kmongo" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [plugins]

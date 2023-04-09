@@ -18,7 +18,6 @@ const val SMALL_MARGIN = 5
 @Composable
 fun CustomCheckbox(
     modifier: Modifier = Modifier,
-    checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     label: String
 ) {
@@ -34,7 +33,6 @@ fun CustomCheckbox(
         Input(
             type = InputType.Checkbox,
             attrs = {
-                checked(checked)
                 onChange {
                     val newCheckedValue = !it.value
                     onCheckedChange(newCheckedValue)

@@ -16,7 +16,7 @@ object ItemMapper {
             price = document.getString("price"),
             url = document.getString("url"),
             roomType = RoomType.fromName(document.getString("roomType")),
-            status = ItemStatus.fromName(document.getString("status")),
+            status = document.getString("status"),
             quantity = getQuantity(document.getString("quantity").trim())
         )
     }

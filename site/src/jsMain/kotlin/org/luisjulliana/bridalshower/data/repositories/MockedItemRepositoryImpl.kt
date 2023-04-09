@@ -7,7 +7,7 @@ import com.luisjulliana.bridalshower.domain.models.Item
 import com.luisjulliana.bridalshower.domain.repositories.ItemRepository
 
 class MockedItemRepositoryImpl : ItemRepository {
-    override suspend fun getItems(): DataState<List<Item>> =
+    override suspend fun getItems(status: ItemStatus?): DataState<List<Item>> =
         DataState.Success(
             listOf(
                 Item(
@@ -17,7 +17,7 @@ class MockedItemRepositoryImpl : ItemRepository {
                     price = 4200f.toString(),
                     url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
                     roomType = RoomType.BEDROOM,
-                    status = ItemStatus.AVAILABLE,
+                    status = ItemStatus.AVAILABLE.status,
                     quantity = 2
                 ),
                 Item(
@@ -27,7 +27,7 @@ class MockedItemRepositoryImpl : ItemRepository {
                     price = 4200f.toString(),
                     url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
                     roomType = RoomType.BEDROOM,
-                    status = ItemStatus.AVAILABLE,
+                    status = ItemStatus.AVAILABLE.status,
                     quantity = 2
                 ),
                 Item(
@@ -37,7 +37,7 @@ class MockedItemRepositoryImpl : ItemRepository {
                     price = 4200f.toString(),
                     url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
                     roomType = RoomType.BEDROOM,
-                    status = ItemStatus.AVAILABLE,
+                    status = ItemStatus.AVAILABLE.status,
                     quantity = 2
                 ),
                 Item(
@@ -47,7 +47,7 @@ class MockedItemRepositoryImpl : ItemRepository {
                     price = 4200f.toString(),
                     url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
                     roomType = RoomType.BEDROOM,
-                    status = ItemStatus.AVAILABLE,
+                    status = ItemStatus.AVAILABLE.status,
                     quantity = 2
                 ),
                 Item(
@@ -57,7 +57,7 @@ class MockedItemRepositoryImpl : ItemRepository {
                     price = 4200f.toString(),
                     url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
                     roomType = RoomType.BEDROOM,
-                    status = ItemStatus.AVAILABLE,
+                    status = ItemStatus.AVAILABLE.status,
                     quantity = 2
                 ),
                 Item(
@@ -67,7 +67,7 @@ class MockedItemRepositoryImpl : ItemRepository {
                     price = 4200f.toString(),
                     url = "https://www.samsung.com/br/tvs/qled-tv/qn85a-55-inch-neo-qled-4k-smart-tv-qn55qn85aagxzd/",
                     roomType = RoomType.BEDROOM,
-                    status = ItemStatus.AVAILABLE,
+                    status = ItemStatus.AVAILABLE.status,
                     quantity = 2
                 )
             )

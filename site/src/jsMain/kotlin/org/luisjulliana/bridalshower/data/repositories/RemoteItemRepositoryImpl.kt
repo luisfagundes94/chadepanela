@@ -1,6 +1,7 @@
 package org.luisjulliana.bridalshower.data.repositories
 
 import com.luisjulliana.bridalshower.core.DataState
+import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.luisjulliana.bridalshower.domain.repositories.ItemRepository
 import kotlinx.serialization.decodeFromString
@@ -10,8 +11,8 @@ import org.luisjulliana.bridalshower.data.service.ItemService
 class RemoteItemRepositoryImpl(
     private val itemService: ItemService
 ): ItemRepository {
-    override suspend fun getItems(): DataState<List<Item>> {
-        val jsonString = itemService.fetchItems()?.decodeToString()
+    override suspend fun getItems(status: ItemStatus?): DataState<List<Item>> {
+        val jsonString = itemService.fetchItems(status)?.decodeToString()
 
         return try {
             val result: List<Item>? = jsonString?.let { Json.decodeFromString(it) }
