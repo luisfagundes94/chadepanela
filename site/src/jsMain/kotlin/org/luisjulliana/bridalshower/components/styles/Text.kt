@@ -1,4 +1,4 @@
-package com.luisjulliana.bridalshower.styles
+package org.luisjulliana.bridalshower.components.styles
 
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextDecorationLine
@@ -35,6 +35,7 @@ val LinkStyle by ComponentStyle {
 val TitleStyle by ComponentStyle {
     base {
         Modifier
+            .color(rgb(8,33,0))
             .fontSize(20.px)
             .fontWeight(FontWeight.Bold)
     }

@@ -1,4 +1,4 @@
-package org.luisjulliana.bridalshower.presentation
+package org.luisjulliana.bridalshower.presentation.wishlist
 
 import com.luisjulliana.bridalshower.domain.models.Item
 

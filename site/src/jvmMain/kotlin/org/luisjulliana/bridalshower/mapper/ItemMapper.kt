@@ -1,6 +1,5 @@
 package org.luisjulliana.bridalshower.mapper
 
-import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.enums.RoomType
 import com.luisjulliana.bridalshower.domain.models.Item
 import org.bson.Document

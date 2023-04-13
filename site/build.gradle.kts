@@ -20,6 +20,10 @@ kobweb {
                     rel = "stylesheet",
                     href = "https://fonts.googleapis.com/css2?family=Handlee&display=swap"
                 )
+                link(
+                    rel = "stylesheet",
+                    href = "https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+                )
             }
             description.set("Powered by Kobweb")
         }
@@ -45,6 +49,7 @@ kotlin {
                 implementation(libs.kobweb.core)
                 implementation(libs.kobweb.silk.core)
                 implementation(libs.kobweb.silk.icons.fa)
+
              }
         }
         val jvmMain by getting {
@@ -52,6 +57,7 @@ kotlin {
                 implementation(libs.kobweb.api)
                 implementation(libs.kmongo)
                 implementation(libs.kmongo.coroutine)
+                implementation(libs.commons.email)
              }
         }
     }

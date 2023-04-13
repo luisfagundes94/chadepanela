@@ -2,7 +2,7 @@ package com.luisjulliana.bridalshower.components.layouts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.luisjulliana.bridalshower.components.sections.NavHeader
+import org.luisjulliana.bridalshower.components.sections.NavHeader
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column

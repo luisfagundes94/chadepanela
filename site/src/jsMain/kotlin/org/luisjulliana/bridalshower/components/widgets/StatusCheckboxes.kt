@@ -1,7 +1,7 @@
 import androidx.compose.runtime.Composable
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import org.luisjulliana.bridalshower.components.widgets.CustomCheckbox
-import org.luisjulliana.bridalshower.presentation.WishlistViewModel
+import org.luisjulliana.bridalshower.presentation.wishlist.WishlistViewModel
 
 @Composable
 fun StatusCheckBoxes(

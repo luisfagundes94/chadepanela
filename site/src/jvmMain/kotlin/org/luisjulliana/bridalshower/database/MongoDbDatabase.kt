@@ -3,14 +3,11 @@ package org.luisjulliana.bridalshower.database
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
+import com.mongodb.client.MongoClients
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.bson.Document
 import org.bson.conversions.Bson
-import com.mongodb.client.MongoClients
-import org.litote.kmongo.coroutine.CoroutineCollection
-import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.reactivestreams.KMongo
 import org.luisjulliana.bridalshower.mapper.ItemMapper.mapToDomain
 
 private const val CONNECTION_STRING =

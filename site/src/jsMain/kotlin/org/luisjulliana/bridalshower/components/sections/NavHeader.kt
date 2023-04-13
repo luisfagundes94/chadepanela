@@ -1,7 +1,7 @@
-package com.luisjulliana.bridalshower.components.sections
+package org.luisjulliana.bridalshower.components.sections
 
 import androidx.compose.runtime.Composable
-import com.luisjulliana.bridalshower.styles.LinkStyle
+import org.luisjulliana.bridalshower.components.styles.LinkStyle
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -60,6 +60,7 @@ fun NavHeader() {
     ) {
         NavLink("/", "HOME")
         NavLink("/wishlist", "WISHLIST")
+        NavLink("/checkout", "CHECKOUT")
     }
 }
 
