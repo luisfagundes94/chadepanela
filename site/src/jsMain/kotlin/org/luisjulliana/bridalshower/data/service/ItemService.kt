@@ -6,9 +6,9 @@ import kotlinx.browser.window
 
 class ItemService {
     suspend fun fetchItems(status: ItemStatus?): ByteArray? {
-        status?.let {
-            return window.api.get("/items?status=${status.status}")
-        }
-        return window.api.get("/items")
+        val url = if (status != null) "items?status=${status.status}"
+        else "items"
+
+        return window.api.get(url)
     }
 }

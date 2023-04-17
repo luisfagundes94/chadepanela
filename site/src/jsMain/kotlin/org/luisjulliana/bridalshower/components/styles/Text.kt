@@ -12,6 +12,8 @@ import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgb
 
+private val black = rgb(25, 25, 25)
+
 val DefaultFontStyle by ComponentStyle {
     default {
         Modifier.fontFamily("Roboto")
@@ -24,7 +26,7 @@ val LinkStyle by ComponentStyle {
     }
 
     anyLink {
-        Modifier.color(rgb(25, 25, 25))
+        Modifier.color(black)
     }
 
     hover {

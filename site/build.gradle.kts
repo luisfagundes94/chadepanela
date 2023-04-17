@@ -38,7 +38,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
-                implementation(libs.koin.core)
                 implementation(libs.kotlinx.serialization.json)
             }
         }
@@ -49,7 +48,7 @@ kotlin {
                 implementation(libs.kobweb.core)
                 implementation(libs.kobweb.silk.core)
                 implementation(libs.kobweb.silk.icons.fa)
-
+                implementation(libs.koin.core)
              }
         }
         val jvmMain by getting {

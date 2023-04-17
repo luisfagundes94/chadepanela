@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WishlistViewModel(
@@ -32,13 +33,34 @@ class WishlistViewModel(
     private fun handleResult(data: DataState<List<Item>>) {
         when (data) {
             is DataState.Success -> {
-                _uiState.value = WishlistUiState(items = data.result)
+                _uiState.update { state ->
+                    state.copy(
+                        items = data.result,
+                        isLoading = false,
+                        hasError = false,
+                        isEmpty = false
+                    )
+                }
             }
             is DataState.Error -> {
-                _uiState.value = WishlistUiState(hasError = true)
+                _uiState.update { state ->
+                    state.copy(
+                        items = emptyList(),
+                        isLoading = false,
+                        hasError = true,
+                        isEmpty = false
+                    )
+                }
             }
             is DataState.Empty -> {
-                _uiState.value = WishlistUiState(isEmpty = true)
+                _uiState.update { state ->
+                    state.copy(
+                        items = emptyList(),
+                        isLoading = false,
+                        hasError = false,
+                        isEmpty = true
+                    )
+                }
             }
         }
     }

@@ -46,7 +46,7 @@ class EmailService {
         const val FROM_EMAIL = "luisfelipecf94@gmail.com"
         const val FROM_PASSWORD = "mngpzyxhtqkhbqez"
         const val PORT = 465
-        const val SUBJECT = "Valeu por vir"
+        const val SUBJECT = "Chá de Panela Julliana e Luís Felipe"
         const val BODY = "Mais que obrigação ter marcado presença. Traga comida e dinheiro, por favor."
     }
 }

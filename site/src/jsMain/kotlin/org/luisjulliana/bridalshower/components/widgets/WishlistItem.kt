@@ -1,8 +1,8 @@
 package org.luisjulliana.bridalshower.components.widgets
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
@@ -24,8 +24,11 @@ private const val INVALID_QUANTITY = -1
 
 @Composable
 fun WishlistItem(item: Item) {
-    val isItemAvailable by remember { mutableStateOf(item.status == ItemStatus.AVAILABLE.status) }
-
+    val isItemAvailable by remember(item.status) {
+        derivedStateOf {
+            ItemStatus.AVAILABLE.status == item.status.status
+        }
+    }
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = ItemScaleAnimation.toModifier()
@@ -78,12 +81,16 @@ fun WishlistItem(item: Item) {
 
 private fun getItemQuantityText(
     quantity: Int,
-    itemStatus: String
+    itemStatus: ItemStatus
 ): String {
-    return if (quantity == INVALID_QUANTITY) "A vontade"
-    else if (itemStatus == ItemStatus.TAKEN.status) ItemStatus.TAKEN.status
-    else "Precisamos de $quantity"
+    return when {
+        quantity == INVALID_QUANTITY -> "A vontade"
+        itemStatus == ItemStatus.TAKEN -> ItemStatus.TAKEN.status
+        itemStatus == ItemStatus.AVAILABLE -> "Precisamos de $quantity"
+        else -> "Precisamos de $quantity"
+    }
 }
+
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable

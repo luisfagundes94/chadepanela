@@ -11,8 +11,9 @@ import org.bson.conversions.Bson
 import org.luisjulliana.bridalshower.mapper.ItemMapper.mapToDomain
 
 private const val CONNECTION_STRING =
-    "mongodb+srv://luisfelipecf94:sEcret01@cluster0.qrmnt0q.mongodb.net/?retr yWrites=true&w=majority"
+    "mongodb+srv://luisfelipecf94:sEcret01@cluster0.qrmnt0q.mongodb.net/?retryWrites=true&w=majority"
 private const val DATABASE_NAME = "chadepanela"
+private const val COLLECTION_NAME = "items"
 
 object MongoDbDatabase {
 
@@ -24,7 +25,7 @@ object MongoDbDatabase {
 
         val client = MongoClients.create(settings)
         val database = client.getDatabase(DATABASE_NAME)
-        val itemsCollection = database.getCollection("items", Document::class.java)
+        val itemsCollection = database.getCollection(COLLECTION_NAME, Document::class.java)
 
         return@withContext itemsCollection.find(status).toList().mapToDomain()
     }

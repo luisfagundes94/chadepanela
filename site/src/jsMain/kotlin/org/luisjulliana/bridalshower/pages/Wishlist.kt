@@ -3,7 +3,8 @@ package org.luisjulliana.bridalshower.pages
 import StatusCheckBoxes
 import androidx.compose.runtime.*
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
-import com.luisjulliana.bridalshower.domain.enums.RoomType
+import com.luisjulliana.bridalshower.domain.enums.CategoryType
+import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
 import org.luisjulliana.bridalshower.components.styles.SubTitleStyle
 import org.luisjulliana.bridalshower.components.styles.TitleStyle
@@ -28,15 +29,13 @@ import org.luisjulliana.bridalshower.components.widgets.Empty
 import org.luisjulliana.bridalshower.components.widgets.Error
 import org.luisjulliana.bridalshower.components.widgets.Loading
 import org.luisjulliana.bridalshower.di.KoinFactory
-import org.luisjulliana.bridalshower.presentation.wishlist.WishlistUiState
 import org.luisjulliana.bridalshower.presentation.wishlist.WishlistViewModel
-
 
 
 @Page
 @Composable
 fun Wishlist() {
-    val viewModel = KoinFactory.wishlistViewModel
+    val viewModel = remember { KoinFactory.wishlistViewModel }
     val uiState by viewModel.uiState.collectAsState()
 
     PageLayout("") {
@@ -45,10 +44,9 @@ fun Wishlist() {
                 uiState.isLoading -> Loading()
                 uiState.isEmpty -> Empty()
                 uiState.items.isNotEmpty() -> Items(
-                    uiState = uiState,
+                    items = uiState.items,
                     viewModel = viewModel
                 )
-
                 uiState.hasError -> Error()
             }
         }
@@ -85,22 +83,24 @@ private fun DivContainer(content: @Composable () -> Unit) {
 
 @Composable
 private fun Items(
-    uiState: WishlistUiState,
+    items: List<Item>,
     viewModel: WishlistViewModel
 ) {
     Row {
-        Filters(
-            viewModel = viewModel
-        )
+        Filters { itemStatus, isChecked ->
+            viewModel.fetchItems(
+                itemStatus = if (isChecked) itemStatus else null
+            )
+        }
         Items(
-            items = uiState.items
+            items = items
         )
     }
 }
 
 @Composable
 private fun Filters(
-    viewModel: WishlistViewModel
+    onStatusCheck: (ItemStatus, Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier.padding(right = 50.px)
@@ -116,16 +116,16 @@ private fun Filters(
         )
         CheckBoxRooms(
             onCheckedChanged = {},
-            rooms = RoomType.values().map { it.type }
+            rooms = CategoryType.values().map { it.type }
         )
         SpanText(
             text = "Status",
             modifier = TitleStyle.toModifier(SubTitleStyle)
                 .margin(top = 15.px, bottom = 10.px)
         )
-        StatusCheckBoxes(
-            viewModel = viewModel
-        )
+        StatusCheckBoxes { itemStatus, isChecked ->
+            onStatusCheck(itemStatus, isChecked)
+        }
     }
 }
 

@@ -34,7 +34,7 @@ fun CustomCheckbox(
             type = InputType.Checkbox,
             attrs = {
                 onChange {
-                    val newCheckedValue = !it.value
+                    val newCheckedValue = it.value
                     onCheckedChange(newCheckedValue)
                 }
             }

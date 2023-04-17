@@ -2,7 +2,8 @@ package org.luisjulliana.bridalshower.pages
 
 import androidx.compose.runtime.Composable
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
-import com.luisjulliana.bridalshower.domain.enums.RoomType
+import com.luisjulliana.bridalshower.domain.enums.CategoryType
+import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.varabyte.kobweb.compose.css.boxShadow
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
@@ -18,7 +19,6 @@ import org.jetbrains.compose.web.dom.Div
 import org.luisjulliana.bridalshower.components.widgets.Cart
 import org.luisjulliana.bridalshower.components.widgets.Form
 import org.luisjulliana.bridalshower.di.KoinFactory
-import org.luisjulliana.bridalshower.presentation.checkout.CheckoutViewModel
 
 
 @Page
@@ -32,8 +32,8 @@ fun Checkout() {
             "https://maisretorno.com/_next/image?url=https%3A%2F%2Fmedia.maisretorno.com%2Fportal%2Fwp-content%2Fuploads%2F2022%2F02%2Fouro-envato.jpg&w=3840&q=75",
             "5777",
             "",
-            roomType = RoomType.LIVING_ROOM,
-            status = "Disponível",
+            categoryType = CategoryType.LIVING_ROOM,
+            status = ItemStatus.AVAILABLE,
             5
         ),
         Item(
@@ -42,8 +42,8 @@ fun Checkout() {
             "https://maisretorno.com/_next/image?url=https%3A%2F%2Fmedia.maisretorno.com%2Fportal%2Fwp-content%2Fuploads%2F2022%2F02%2Fouro-envato.jpg&w=3840&q=75",
             "5777",
             "",
-            roomType = RoomType.LIVING_ROOM,
-            status = "Disponível",
+            categoryType = CategoryType.LIVING_ROOM,
+            status = ItemStatus.AVAILABLE,
             5
         ),
     )

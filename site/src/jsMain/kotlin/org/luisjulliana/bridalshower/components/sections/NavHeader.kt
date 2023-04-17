@@ -1,7 +1,6 @@
 package org.luisjulliana.bridalshower.components.sections
 
 import androidx.compose.runtime.Composable
-import org.luisjulliana.bridalshower.components.styles.LinkStyle
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -17,6 +16,7 @@ import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.*
+import org.luisjulliana.bridalshower.components.styles.LinkStyle
 
 private const val HEADER_TITLE_SIZE = 60
 private const val HEADER_TOP_MARGIN = 60
@@ -60,17 +60,23 @@ fun NavHeader() {
     ) {
         NavLink("/", "HOME")
         NavLink("/wishlist", "WISHLIST")
-        NavLink("/checkout", "CHECKOUT")
+        NavLink("/checkout", "CARRINHO")
     }
 }
 
 @Composable
-private fun NavLink(path: String, text: String) {
+private fun NavLink(
+    path: String,
+    text: String
+) {
     Link(
         path = path,
         text = text,
         variant = UndecoratedLinkVariant,
         modifier = LinkStyle.toModifier()
-            .margin(leftRight = NAV_LINK_HORIZONTAL_MARGIN.px)
+            .margin(
+                leftRight = NAV_LINK_HORIZONTAL_MARGIN.px
+            )
     )
 }
+
