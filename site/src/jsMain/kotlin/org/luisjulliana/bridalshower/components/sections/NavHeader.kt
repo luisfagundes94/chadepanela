@@ -18,9 +18,9 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.*
 import org.luisjulliana.bridalshower.components.styles.LinkStyle
 
-private const val HEADER_TITLE_SIZE = 60
+private const val HEADER_TITLE_SIZE = 70
 private const val HEADER_TOP_MARGIN = 60
-private const val SUB_HEADER_TITLE_SIZE = 20
+private const val SUB_HEADER_TITLE_SIZE = 30
 private const val NAV_LINK_HORIZONTAL_MARGIN = 15
 private const val NAV_HEADER_BACKGROUND_IMAGE_URL = "url('https://i.ibb.co/31Q2yrN/plant-Background01.png')"
 

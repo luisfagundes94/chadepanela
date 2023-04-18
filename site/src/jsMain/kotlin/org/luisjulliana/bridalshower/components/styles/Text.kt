@@ -9,10 +9,9 @@ import com.varabyte.kobweb.silk.components.style.anyLink
 import com.varabyte.kobweb.silk.components.style.default
 import com.varabyte.kobweb.silk.components.style.hover
 import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.rgb
-
-private val black = rgb(25, 25, 25)
+import org.luisjulliana.bridalshower.utils.black
 
 val DefaultFontStyle by ComponentStyle {
     default {
@@ -22,7 +21,9 @@ val DefaultFontStyle by ComponentStyle {
 
 val LinkStyle by ComponentStyle {
     base {
-        Modifier.textDecorationLine(TextDecorationLine.None)
+        Modifier
+            .textDecorationLine(TextDecorationLine.None)
+            .fontSize(1.25.em)
     }
 
     anyLink {
@@ -37,9 +38,15 @@ val LinkStyle by ComponentStyle {
 val TitleStyle by ComponentStyle {
     base {
         Modifier
-            .color(rgb(8,33,0))
+            .color(black)
             .fontSize(20.px)
             .fontWeight(FontWeight.Bold)
+    }
+}
+
+val LargeTitleVariant = TitleStyle.addVariant("largeTitle") {
+    base {
+        Modifier.fontSize(30.px)
     }
 }
 

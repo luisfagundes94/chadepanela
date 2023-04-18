@@ -8,9 +8,8 @@ import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgb
-
-private val green = rgb(185,242,149)
-private val darkGreen = rgb(165,222,129)
+import org.luisjulliana.bridalshower.utils.darkGreen
+import org.luisjulliana.bridalshower.utils.green
 
 val DefaultButtonStyle by ComponentStyle {
     base {

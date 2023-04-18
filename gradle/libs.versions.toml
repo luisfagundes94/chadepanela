@@ -5,10 +5,11 @@ kotlin = "1.8.10"
 koin = "3.4.0"
 koin-ext = "3.0.2"
 kmongo = "4.8.0"
-gson = "2.10.1"
 kotlinx-serialization = "1.4.0"
 simplekotlinmail = "1.4.0"
 apache-mail = "1.5"
+kotlinx-datetime = "0.3.1"
+coroutines = "1.7.0-Beta"
 
 [libraries]
 kobweb-api = { module = "com.varabyte.kobweb:kobweb-api", version.ref = "kobweb" }
@@ -25,6 +26,8 @@ simple-kotlin-mail = { module = "net.axay:simplekotlinmail-core", version.ref = 
 simple-kotlin-mail-client = { module = "net.axay:simplekotlinmail-client", version.ref = "simplekotlinmail" }
 commons-email = { module = "org.apache.commons:commons-email", version.ref = "apache-mail"}
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
 [plugins]
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
