@@ -1,6 +1,6 @@
 package org.luisjulliana.bridalshower.pages
 
-import StatusCheckBoxes
+import StatusRadioButtons
 import androidx.compose.runtime.*
 import com.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.luisjulliana.bridalshower.domain.enums.CategoryType
@@ -10,6 +10,7 @@ import org.luisjulliana.bridalshower.components.styles.SubTitleStyle
 import org.luisjulliana.bridalshower.components.styles.TitleStyle
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -22,10 +23,12 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
+import org.luisjulliana.bridalshower.components.layouts.HorizontalSpacer
 import org.luisjulliana.bridalshower.components.styles.GridStyleVariant
 import org.luisjulliana.bridalshower.components.widgets.*
 import org.luisjulliana.bridalshower.di.KoinFactory
 import org.luisjulliana.bridalshower.presentation.wishlist.WishlistViewModel
+import org.luisjulliana.bridalshower.utils.DEFAULT_SPACER
 
 
 @Page
@@ -34,17 +37,40 @@ fun Wishlist() {
     val viewModel = remember { KoinFactory.wishlistViewModel }
     val uiState by viewModel.uiState.collectAsState()
 
+    val statusFilter = remember { mutableStateOf<ItemStatus?>(null) }
+    val categoryFilter = remember { mutableStateOf<CategoryType?>(null) }
+
+    viewModel.fetchItems(
+        itemStatus = statusFilter.value,
+        categoryType = categoryFilter.value
+    )
+
     PageLayout("") {
         DivContainer {
-            when {
-                uiState.isLoading -> Loading()
-                uiState.isEmpty -> Empty()
-                uiState.items.isNotEmpty() -> Items(
-                    items = uiState.items,
-                    viewModel = viewModel
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                Filters(
+                    onStatusCheck = { itemStatus ->
+                        statusFilter.value = itemStatus
+                    },
+                    onCategoryCheck = { categoryType ->
+                        categoryFilter.value = categoryType
+                    }
                 )
-
-                uiState.hasError -> Error()
+                HorizontalSpacer(width = DEFAULT_SPACER)
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    when {
+                        uiState.isLoading -> Loading()
+                        uiState.isEmpty -> Empty()
+                        uiState.items.isNotEmpty() -> Items(uiState.items)
+                        uiState.hasError -> Error()
+                    }
+                }
             }
         }
     }
@@ -79,36 +105,13 @@ private fun DivContainer(content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun Items(
-    items: List<Item>,
-    viewModel: WishlistViewModel
-) {
-    Row {
-        Filters(
-            onStatusCheck = { itemStatus, isChecked ->
-                viewModel.fetchItems(
-                    itemStatus = if (isChecked) itemStatus else null
-                )
-            },
-            onCategoryCheck = { categoryType ->
-                viewModel.fetchItems(
-                    categoryType = categoryType
-                )
-            }
-        )
-        Items(
-            items = items
-        )
-    }
-}
-
-@Composable
 private fun Filters(
-    onStatusCheck: (ItemStatus, Boolean) -> Unit,
+    onStatusCheck: (ItemStatus) -> Unit,
     onCategoryCheck: (CategoryType) -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(right = 50.px)
+        modifier = Modifier.minWidth(Width.FitContent),
+        horizontalAlignment = Alignment.Start
     ) {
         SpanText(
             text = "Nossa Wishlist",
@@ -119,7 +122,7 @@ private fun Filters(
             modifier = TitleStyle.toModifier(SubTitleStyle)
                 .margin(top = 20.px, bottom = 10.px)
         )
-        CheckBoxCategories(
+        CategoryRadioButtons(
             onCheckChange = { roomType ->
                 onCategoryCheck(roomType)
             },
@@ -130,9 +133,10 @@ private fun Filters(
             modifier = TitleStyle.toModifier(SubTitleStyle)
                 .margin(top = 15.px, bottom = 10.px)
         )
-        StatusCheckBoxes { itemStatus, isChecked ->
-            onStatusCheck(itemStatus, isChecked)
-        }
+        StatusRadioButtons(
+            onCheckChange = { onStatusCheck(it) },
+            statusList = ItemStatus.values().toList()
+        )
     }
 }
 
@@ -147,26 +151,3 @@ private fun Items(items: List<Item>) {
         }
     }
 }
-
-@Composable
-fun CheckBoxCategories(
-    categories: List<CategoryType>,
-    onCheckChange: (CategoryType) -> Unit
-) {
-    var selectedRoomType by remember { mutableStateOf(CategoryType.ALL) }
-
-    categories.forEach { room ->
-        CustomRadioButton(
-            label = room.type,
-            isChecked = selectedRoomType == room,
-            onCheckChange = { isChecked ->
-                selectedRoomType = if (isChecked) room else CategoryType.ALL
-                onCheckChange(selectedRoomType)
-            }
-        )
-    }
-}
-
-
-
-

@@ -21,10 +21,6 @@ class WishlistViewModel(
     private val _uiState = MutableStateFlow(WishlistUiState(isLoading = true))
     val uiState: StateFlow<WishlistUiState> = _uiState.asStateFlow()
 
-    init {
-        fetchItems()
-    }
-
     fun fetchItems(
         itemStatus: ItemStatus? = null,
         categoryType: CategoryType? = null

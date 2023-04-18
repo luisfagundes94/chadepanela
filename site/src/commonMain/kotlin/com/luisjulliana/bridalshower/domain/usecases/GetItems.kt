@@ -9,7 +9,7 @@ class GetItems(private val repository: ItemRepository) {
         itemStatus: ItemStatus?,
         categoryType: CategoryType?
     ) = repository.getItems(
-        status = itemStatus,
-        categoryType = if (categoryType == CategoryType.ALL) null else categoryType
+        status = itemStatus?.takeIf { it != ItemStatus.ALL },
+        categoryType = categoryType?.takeIf { it != CategoryType.ALL }
     )
 }
