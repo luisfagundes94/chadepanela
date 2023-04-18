@@ -22,12 +22,8 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
-import org.luisjulliana.bridalshower.components.widgets.WishlistItem
 import org.luisjulliana.bridalshower.components.styles.GridStyleVariant
-import org.luisjulliana.bridalshower.components.widgets.CustomCheckbox
-import org.luisjulliana.bridalshower.components.widgets.Empty
-import org.luisjulliana.bridalshower.components.widgets.Error
-import org.luisjulliana.bridalshower.components.widgets.Loading
+import org.luisjulliana.bridalshower.components.widgets.*
 import org.luisjulliana.bridalshower.di.KoinFactory
 import org.luisjulliana.bridalshower.presentation.wishlist.WishlistViewModel
 
@@ -47,6 +43,7 @@ fun Wishlist() {
                     items = uiState.items,
                     viewModel = viewModel
                 )
+
                 uiState.hasError -> Error()
             }
         }
@@ -87,11 +84,18 @@ private fun Items(
     viewModel: WishlistViewModel
 ) {
     Row {
-        Filters { itemStatus, isChecked ->
-            viewModel.fetchItems(
-                itemStatus = if (isChecked) itemStatus else null
-            )
-        }
+        Filters(
+            onStatusCheck = { itemStatus, isChecked ->
+                viewModel.fetchItems(
+                    itemStatus = if (isChecked) itemStatus else null
+                )
+            },
+            onCategoryCheck = { categoryType ->
+                viewModel.fetchItems(
+                    categoryType = categoryType
+                )
+            }
+        )
         Items(
             items = items
         )
@@ -101,6 +105,7 @@ private fun Items(
 @Composable
 private fun Filters(
     onStatusCheck: (ItemStatus, Boolean) -> Unit,
+    onCategoryCheck: (CategoryType) -> Unit
 ) {
     Column(
         modifier = Modifier.padding(right = 50.px)
@@ -114,9 +119,11 @@ private fun Filters(
             modifier = TitleStyle.toModifier(SubTitleStyle)
                 .margin(top = 20.px, bottom = 10.px)
         )
-        CheckBoxRooms(
-            onCheckedChanged = {},
-            rooms = CategoryType.values().map { it.type }
+        CheckBoxCategories(
+            onCheckChange = { roomType ->
+                onCategoryCheck(roomType)
+            },
+            categories = CategoryType.values().toList()
         )
         SpanText(
             text = "Status",
@@ -142,16 +149,24 @@ private fun Items(items: List<Item>) {
 }
 
 @Composable
-fun CheckBoxRooms(
-    rooms: List<String>,
-    onCheckedChanged: (Boolean) -> Unit = {}
+fun CheckBoxCategories(
+    categories: List<CategoryType>,
+    onCheckChange: (CategoryType) -> Unit
 ) {
-    rooms.forEach { room ->
-        CustomCheckbox(
-            onCheckedChange = onCheckedChanged,
-            label = room
+    var selectedRoomType by remember { mutableStateOf(CategoryType.ALL) }
+
+    categories.forEach { room ->
+        CustomRadioButton(
+            label = room.type,
+            isChecked = selectedRoomType == room,
+            onCheckChange = { isChecked ->
+                selectedRoomType = if (isChecked) room else CategoryType.ALL
+                onCheckChange(selectedRoomType)
+            }
         )
     }
 }
+
+
 
 

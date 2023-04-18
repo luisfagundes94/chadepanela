@@ -1,6 +1,6 @@
 import androidx.compose.runtime.Composable
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
-import org.luisjulliana.bridalshower.components.widgets.CustomCheckbox
+import org.luisjulliana.bridalshower.components.widgets.CustomRadioButton
 
 @Composable
 fun StatusCheckBoxes(
@@ -8,9 +8,9 @@ fun StatusCheckBoxes(
 ) {
     val itemStatusList = ItemStatus.values().toList()
     itemStatusList.forEach { itemStatus ->
-        CustomCheckbox(
+        CustomRadioButton(
             label = itemStatus.status,
-            onCheckedChange = { isChecked ->
+            onCheckChange = { isChecked ->
                 onCheckChange(itemStatus, isChecked)
             }
         )

@@ -1,6 +1,5 @@
 package org.luisjulliana.bridalshower.api
 
-import com.luisjulliana.bridalshower.domain.models.Item
 import com.mongodb.client.model.Filters.`in`
 import com.varabyte.kobweb.api.Api
 import com.varabyte.kobweb.api.ApiContext
@@ -20,8 +19,13 @@ private val emailService = EmailService()
 @Api("items")
 suspend fun items(context: ApiContext) {
     val statusFilter = setUpStatusFilter(context)
-    val bodyText = Json.encodeToString(MongoDbDatabase.getItems(statusFilter))
-
+    val categoryFilter = setUpCategoryFilter(context)
+    val bodyText = Json.encodeToString(
+        MongoDbDatabase.getItems(
+            status = statusFilter,
+            category = categoryFilter
+        )
+    )
     if (bodyText.isBlank()) context.res.setBodyText(text = "empty")
     else context.res.setBodyText(text = bodyText)
 }
@@ -52,6 +56,13 @@ fun sendEmail(context: ApiContext) {
 private fun setUpStatusFilter(context: ApiContext): Bson {
     val statusParam = context.req.params["status"]
 
-    return if (statusParam != null) `in`(Item::status.name, statusParam)
+    return if (statusParam != null) `in`("status", statusParam)
+    else Document()
+}
+
+private fun setUpCategoryFilter(context: ApiContext): Bson {
+    val categoryParam = context.req.params["categoria"]
+
+    return if (categoryParam != null) `in`("categoria", categoryParam)
     else Document()
 }

@@ -4,6 +4,7 @@ import com.luisjulliana.bridalshower.domain.models.Item
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClients
+import com.mongodb.client.model.Filters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.bson.Document
@@ -17,7 +18,10 @@ private const val COLLECTION_NAME = "items"
 
 object MongoDbDatabase {
 
-    suspend fun getItems(status: Bson): List<Item> = withContext(Dispatchers.IO) {
+    suspend fun getItems(
+        status: Bson,
+        category: Bson
+    ): List<Item> = withContext(Dispatchers.IO) {
         val connectionString = ConnectionString(CONNECTION_STRING)
         val settings = MongoClientSettings.builder()
             .applyConnectionString(connectionString)
@@ -27,6 +31,8 @@ object MongoDbDatabase {
         val database = client.getDatabase(DATABASE_NAME)
         val itemsCollection = database.getCollection(COLLECTION_NAME, Document::class.java)
 
-        return@withContext itemsCollection.find(status).toList().mapToDomain()
+        val combinedFilter = Filters.and(status, category)
+
+        return@withContext itemsCollection.find(combinedFilter).toList().mapToDomain()
     }
 }

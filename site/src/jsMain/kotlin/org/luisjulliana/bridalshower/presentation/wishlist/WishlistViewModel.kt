@@ -1,6 +1,7 @@
 package org.luisjulliana.bridalshower.presentation.wishlist
 
 import com.luisjulliana.bridalshower.core.DataState
+import com.luisjulliana.bridalshower.domain.enums.CategoryType
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.luisjulliana.bridalshower.domain.usecases.GetItems
@@ -24,9 +25,16 @@ class WishlistViewModel(
         fetchItems()
     }
 
-    fun fetchItems(itemStatus: ItemStatus? = null) {
+    fun fetchItems(
+        itemStatus: ItemStatus? = null,
+        categoryType: CategoryType? = null
+    ) {
         coroutineScope.launch {
-            handleResult(getItems(itemStatus))
+            handleResult(
+                getItems(
+                    itemStatus, categoryType
+                )
+            )
         }
     }
 
@@ -42,6 +50,7 @@ class WishlistViewModel(
                     )
                 }
             }
+
             is DataState.Error -> {
                 _uiState.update { state ->
                     state.copy(
@@ -52,6 +61,7 @@ class WishlistViewModel(
                     )
                 }
             }
+
             is DataState.Empty -> {
                 _uiState.update { state ->
                     state.copy(

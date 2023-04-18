@@ -16,9 +16,10 @@ const val ROW_BOTTOM_MARGIN = 5
 const val SMALL_MARGIN = 5
 
 @Composable
-fun CustomCheckbox(
+fun CustomRadioButton(
     modifier: Modifier = Modifier,
-    onCheckedChange: (Boolean) -> Unit,
+    isChecked: Boolean = false,
+    onCheckChange: (Boolean) -> Unit,
     label: String
 ) {
     Row(
@@ -31,11 +32,11 @@ fun CustomCheckbox(
 
     ) {
         Input(
-            type = InputType.Checkbox,
+            type = InputType.Radio,
             attrs = {
-                onChange {
-                    val newCheckedValue = it.value
-                    onCheckedChange(newCheckedValue)
+                checked(isChecked)
+                onInput {
+                    onCheckChange(!isChecked)
                 }
             }
         )
