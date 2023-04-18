@@ -1,7 +1,7 @@
 package org.luisjulliana.bridalshower.pages
 
 import androidx.compose.runtime.Composable
-import com.luisjulliana.bridalshower.components.layouts.PageLayout
+import org.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.luisjulliana.bridalshower.domain.enums.CategoryType
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item

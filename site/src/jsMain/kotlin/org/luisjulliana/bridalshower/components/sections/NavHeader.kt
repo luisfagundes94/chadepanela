@@ -6,17 +6,16 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
-import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
-import com.varabyte.kobweb.compose.ui.modifiers.fontSize
-import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
+import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.*
 import org.luisjulliana.bridalshower.components.styles.LinkStyle
+import org.luisjulliana.bridalshower.utils.black
 
 private const val HEADER_TITLE_SIZE = 70
 private const val HEADER_TOP_MARGIN = 60
@@ -26,6 +25,7 @@ private const val NAV_HEADER_BACKGROUND_IMAGE_URL = "url('https://i.ibb.co/31Q2y
 
 @Composable
 fun NavHeader() {
+    val context = rememberPageContext()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,22 +58,26 @@ fun NavHeader() {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
-        NavLink("/", "HOME")
-        NavLink("/wishlist", "WISHLIST")
-        NavLink("/checkout", "CARRINHO")
+        NavLink("/", "HOME", context.slug == "")
+        NavLink("/wishlist", "WISHLIST", context.slug == "wishlist")
+        NavLink("/checkout", "CARRINHO", context.slug == "checkout")
     }
 }
 
 @Composable
 private fun NavLink(
     path: String,
-    text: String
+    text: String,
+    isActive: Boolean
 ) {
+    val color = if (isActive) Color.gray else black
+    println("color: $color")
     Link(
         path = path,
         text = text,
         variant = UndecoratedLinkVariant,
         modifier = LinkStyle.toModifier()
+            .color(color)
             .margin(
                 leftRight = NAV_LINK_HORIZONTAL_MARGIN.px
             )

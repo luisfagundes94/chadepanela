@@ -1,4 +1,4 @@
-package com.luisjulliana.bridalshower.components.layouts
+package org.luisjulliana.bridalshower.components.layouts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,10 +24,6 @@ fun PageLayout(title: String, content: @Composable () -> Unit) {
         Modifier
         .fillMaxWidth()
         .minHeight(100.percent)
-        // Create a box with two rows: the main content (fills as much space as it can) and the footer (which reserves
-        // space at the bottom). "auto" means the use the height of the row. "1fr" means give the rest of the space to
-        // that row. Since this box is set to *at least* 100%, the footer will always appear at least on the bottom but
-        // can be pushed further down if the first row grows beyond the page.
         .gridTemplateRows("1fr auto")
     ) {
         Column(

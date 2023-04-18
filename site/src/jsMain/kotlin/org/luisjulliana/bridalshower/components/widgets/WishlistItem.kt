@@ -7,10 +7,17 @@ import androidx.compose.runtime.remember
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.silk.components.icons.fa.FaCartPlus
+import com.varabyte.kobweb.silk.components.icons.fa.FaCirclePlus
+import com.varabyte.kobweb.silk.components.icons.fa.FaPlus
+import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
@@ -60,22 +67,42 @@ fun WishlistItem(item: Item) {
                 .margin(topBottom = .3.em)
                 .padding(leftRight = 15.px)
         )
-        SpanText(
-            text = "R$${item.price}",
-            modifier = Modifier
-                .fontWeight(FontWeight.SemiBold)
-                .padding(leftRight = 15.px)
-        )
-        SpanText(
-            text = getItemQuantityText(
-                quantity = item.quantity,
-                itemStatus = item.status
-            ),
-            modifier = Modifier
-                .fontSize(12.px)
-                .color(rgb(60, 60, 60))
-                .padding(leftRight = 15.px)
-        )
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+            ) {
+                SpanText(
+                    text = "R$${item.price}",
+                    modifier = Modifier
+                        .fontWeight(FontWeight.SemiBold)
+                        .padding(leftRight = 15.px)
+                )
+                SpanText(
+                    text = getItemQuantityText(
+                        quantity = item.quantity,
+                        itemStatus = item.status
+                    ),
+                    modifier = Modifier
+                        .fontSize(12.px)
+                        .color(rgb(60, 60, 60))
+                        .padding(leftRight = 15.px)
+                )
+            }
+            Spacer()
+            FaCirclePlus(
+                size = IconSize.LG,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .align(Alignment.End)
+                    .padding(leftRight = 15.px)
+                    .onClick {
+
+                    }
+            )
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 package org.luisjulliana.bridalshower.pages
 
 import androidx.compose.runtime.Composable
-import com.luisjulliana.bridalshower.components.layouts.PageLayout
+import org.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.varabyte.kobweb.compose.css.backdropFilter
 import com.varabyte.kobweb.compose.css.functions.blur
 import com.varabyte.kobweb.compose.css.functions.brightness
@@ -33,7 +33,7 @@ private const val BUTTON_MESSAGE = "Escolher items"
 
 @Page
 @Composable
-fun HomePage() {
+fun Home() {
     PageLayout("") {
         WelcomeBackdrop()
         Countdown()

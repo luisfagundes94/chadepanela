@@ -2,7 +2,7 @@ package org.luisjulliana.bridalshower.pages
 
 import StatusRadioButtons
 import androidx.compose.runtime.*
-import com.luisjulliana.bridalshower.components.layouts.PageLayout
+import org.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.luisjulliana.bridalshower.domain.enums.CategoryType
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
@@ -27,7 +27,6 @@ import org.luisjulliana.bridalshower.components.layouts.HorizontalSpacer
 import org.luisjulliana.bridalshower.components.styles.GridStyleVariant
 import org.luisjulliana.bridalshower.components.widgets.*
 import org.luisjulliana.bridalshower.di.KoinFactory
-import org.luisjulliana.bridalshower.presentation.wishlist.WishlistViewModel
 import org.luisjulliana.bridalshower.utils.DEFAULT_SPACER
 
 
