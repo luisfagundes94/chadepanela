@@ -1,9 +1,6 @@
 package org.luisjulliana.bridalshower.components.widgets
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
 import com.varabyte.kobweb.compose.css.*
@@ -14,10 +11,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.icons.fa.FaCartPlus
-import com.varabyte.kobweb.silk.components.icons.fa.FaCirclePlus
-import com.varabyte.kobweb.silk.components.icons.fa.FaPlus
-import com.varabyte.kobweb.silk.components.icons.fa.IconSize
+import com.varabyte.kobweb.silk.components.icons.fa.*
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
@@ -30,12 +24,18 @@ import org.luisjulliana.bridalshower.extensions.openExternalLinkOnClick
 private const val INVALID_QUANTITY = -1
 
 @Composable
-fun WishlistItem(item: Item) {
+fun WishlistItem(
+    item: Item,
+    onAddItemToCart: (Item) -> Unit,
+    onRemoveItemFromCart: (String) -> Unit
+) {
     val isItemAvailable by remember(item.status) {
         derivedStateOf {
             ItemStatus.AVAILABLE.status == item.status.status
         }
     }
+    var isIconClicked by remember { mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = ItemScaleAnimation.toModifier()
@@ -55,7 +55,6 @@ fun WishlistItem(item: Item) {
                 url = item.url,
                 isItemAvailable = isItemAvailable
             )
-
     ) {
         ItemImage(
             imageUrl = item.imageUrl
@@ -75,7 +74,7 @@ fun WishlistItem(item: Item) {
                 modifier = Modifier
             ) {
                 SpanText(
-                    text = "R$${item.price}",
+                    text = "R$ ${item.price}",
                     modifier = Modifier
                         .fontWeight(FontWeight.SemiBold)
                         .padding(leftRight = 15.px)
@@ -92,16 +91,30 @@ fun WishlistItem(item: Item) {
                 )
             }
             Spacer()
-            FaCirclePlus(
-                size = IconSize.LG,
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .align(Alignment.End)
-                    .padding(leftRight = 15.px)
-                    .onClick {
-
-                    }
-            )
+            if (isIconClicked)
+                FaCircleCheck(
+                    size = IconSize.LG,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .align(Alignment.End)
+                        .padding(leftRight = 15.px)
+                        .onClick {
+                            isIconClicked = !isIconClicked
+                            onRemoveItemFromCart(item.id)
+                        }
+                )
+            else
+                FaCirclePlus(
+                    size = IconSize.LG,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .align(Alignment.End)
+                        .padding(leftRight = 15.px)
+                        .onClick {
+                            isIconClicked = !isIconClicked
+                            onAddItemToCart(item)
+                        }
+                )
         }
     }
 }

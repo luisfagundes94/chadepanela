@@ -58,9 +58,21 @@ fun NavHeader() {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
-        NavLink("/", "HOME", context.slug == "")
-        NavLink("/wishlist", "WISHLIST", context.slug == "wishlist")
-        NavLink("/checkout", "CARRINHO", context.slug == "checkout")
+        NavLink(
+            path = "/",
+            text = "HOME",
+            isActive = context.slug == ""
+        )
+        NavLink(
+            path = "/wishlist",
+            text = "WISHLIST",
+            isActive = context.slug == "wishlist"
+        )
+        NavLink(
+            path = "/checkout",
+            text = "CARRINHO",
+            isActive = context.slug == "checkout"
+        )
     }
 }
 
@@ -68,16 +80,16 @@ fun NavHeader() {
 private fun NavLink(
     path: String,
     text: String,
-    isActive: Boolean
+    isActive: Boolean,
 ) {
-    val color = if (isActive) Color.gray else black
-    println("color: $color")
+    val linkColor = if (isActive) Color.gray else black
+
     Link(
         path = path,
         text = text,
         variant = UndecoratedLinkVariant,
         modifier = LinkStyle.toModifier()
-            .color(color)
+            .color(linkColor)
             .margin(
                 leftRight = NAV_LINK_HORIZONTAL_MARGIN.px
             )

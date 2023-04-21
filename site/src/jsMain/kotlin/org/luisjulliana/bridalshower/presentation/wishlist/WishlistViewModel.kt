@@ -4,7 +4,9 @@ import com.luisjulliana.bridalshower.core.DataState
 import com.luisjulliana.bridalshower.domain.enums.CategoryType
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
 import com.luisjulliana.bridalshower.domain.models.Item
+import com.luisjulliana.bridalshower.domain.usecases.AddItemToCart
 import com.luisjulliana.bridalshower.domain.usecases.GetItems
+import com.luisjulliana.bridalshower.domain.usecases.RemoveCartItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,14 +16,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WishlistViewModel(
-    private val getItems: GetItems
+    private val getItems: GetItems,
+    private val addItem: AddItemToCart,
+    private val removeItem: RemoveCartItem,
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main),
 ) {
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val _uiState = MutableStateFlow(WishlistUiState(isLoading = true))
     val uiState: StateFlow<WishlistUiState> = _uiState.asStateFlow()
 
-    fun fetchItems(
+    fun fetchItemsFromRemoteApi(
         itemStatus: ItemStatus? = null,
         categoryType: CategoryType? = null
     ) {
@@ -32,6 +36,14 @@ class WishlistViewModel(
                 )
             )
         }
+    }
+
+    fun addItemToCart(item: Item) = coroutineScope.launch {
+        addItem(item)
+    }
+
+    fun removeCartItem(id: String) = coroutineScope.launch {
+        removeItem(id)
     }
 
     private fun handleResult(data: DataState<List<Item>>) {

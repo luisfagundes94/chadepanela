@@ -8,10 +8,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.color
-import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
-import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
-import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
@@ -28,8 +25,13 @@ import org.luisjulliana.bridalshower.utils.VERY_SMALL_SPACER
 
 
 @Composable
-fun Cart(items: List<Item>) {
-    val totalPrice = items.sumOf { it.price.toInt() }
+fun Cart(
+    items: List<Item>,
+    onEmptyCartClick: () -> Unit = {},
+) {
+    val totalPrice = items.sumOf {
+        it.price.replace(",", ".").toDouble()
+    }
 
     Column(
         modifier = Modifier
@@ -40,14 +42,25 @@ fun Cart(items: List<Item>) {
             text = "Seus Items",
             modifier = TitleStyle.toModifier()
         )
-        LineDivider()
         VerticalSpacer(height = SMALL_SPACER)
         items.forEach { item ->
             CartItem(item = item)
         }
+        LineDivider()
+        SpanText(
+            text = "Remover Todos",
+            modifier = Modifier
+                .color(Color.red)
+                .align(Alignment.End)
+                .cursor(Cursor.Pointer)
+                .fontStyle(FontStyle.Inherit)
+                .onClick {
+                    onEmptyCartClick()
+                }
+        )
         VerticalSpacer(height = SMALL_SPACER)
         SpanText(
-            text = "Total $${totalPrice}",
+            text = "Total: $totalPrice reais",
             modifier = TitleStyle.toModifier(SubTitleStyle)
         )
     }
@@ -56,6 +69,7 @@ fun Cart(items: List<Item>) {
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
 private fun CartItem(item: Item) {
+    LineDivider()
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -111,10 +125,9 @@ private fun CartItem(item: Item) {
                     modifier = Modifier
                         .color(rgb(150,150,150))
                         .fontWeight(FontWeight.Bold),
-                    text = " x${item.quantity}"
+                    text = if (item.quantity == -1) " x1" else " x${item.quantity}"
                 )
             }
         }
     }
-    LineDivider()
 }

@@ -1,6 +1,6 @@
 package org.luisjulliana.bridalshower.pages
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import org.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.varabyte.kobweb.compose.css.backdropFilter
 import com.varabyte.kobweb.compose.css.functions.blur
@@ -27,7 +27,7 @@ import org.luisjulliana.bridalshower.utils.DEFAULT_SPACER
 import org.luisjulliana.bridalshower.utils.LARGE_SPACER
 import org.luisjulliana.bridalshower.utils.SMALL_SPACER
 
-private const val IMAGE_URL =
+private const val LUNCH_BACKGROUND_URL =
     "url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
 private const val BUTTON_MESSAGE = "Escolher items"
 
@@ -50,7 +50,7 @@ private fun WelcomeBackdrop() {
                 width(100.percent)
                 height(30.em)
                 position(Position.Relative)
-                backgroundImage(IMAGE_URL)
+                backgroundImage(LUNCH_BACKGROUND_URL)
                 backgroundSize("cover")
                 backgroundRepeat("no-repeat")
                 backgroundPosition("bottom")

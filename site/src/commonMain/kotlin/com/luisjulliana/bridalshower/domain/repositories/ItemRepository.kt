@@ -10,7 +10,9 @@ interface ItemRepository {
         status: ItemStatus?,
         categoryType: CategoryType?
     ): DataState<List<Item>>
-    suspend fun removeItem(id: Int)
-    suspend fun addItem(item: Item)
+    suspend fun removeCartItem(id: String)
+    suspend fun removeAllCartItems()
+    suspend fun listCartItems(): DataState<List<Item>>
+    suspend fun addCartItem(item: Item)
     suspend fun updateItem(item: Item)
 }

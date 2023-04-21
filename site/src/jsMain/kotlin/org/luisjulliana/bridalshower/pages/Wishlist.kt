@@ -39,10 +39,12 @@ fun Wishlist() {
     val statusFilter = remember { mutableStateOf<ItemStatus?>(null) }
     val categoryFilter = remember { mutableStateOf<CategoryType?>(null) }
 
-    viewModel.fetchItems(
-        itemStatus = statusFilter.value,
-        categoryType = categoryFilter.value
-    )
+    LaunchedEffect(statusFilter.value, categoryFilter.value) {
+        viewModel.fetchItemsFromRemoteApi(
+            itemStatus = statusFilter.value,
+            categoryType = categoryFilter.value
+        )
+    }
 
     PageLayout("") {
         DivContainer {
@@ -66,7 +68,15 @@ fun Wishlist() {
                     when {
                         uiState.isLoading -> Loading()
                         uiState.isEmpty -> Empty()
-                        uiState.items.isNotEmpty() -> Items(uiState.items)
+                        uiState.items.isNotEmpty() -> Items(
+                            items = uiState.items,
+                            onAddItemToCart = { item ->
+                                viewModel.addItemToCart(item)
+                            },
+                            onRemoveItemFromCart = { itemId ->
+                                viewModel.removeCartItem(itemId)
+                            }
+                        )
                         uiState.hasError -> Error()
                     }
                 }
@@ -140,13 +150,21 @@ private fun Filters(
 }
 
 @Composable
-private fun Items(items: List<Item>) {
+private fun Items(
+    items: List<Item>,
+    onAddItemToCart: (Item) -> Unit,
+    onRemoveItemFromCart: (String) -> Unit,
+) {
     SimpleGrid(
         numColumns = ResponsiveValues(5, 2, 4, 5, 5),
         variant = GridStyleVariant,
     ) {
         items.forEach { item ->
-            WishlistItem(item)
+            WishlistItem(
+                item = item,
+                onAddItemToCart = onAddItemToCart,
+                onRemoveItemFromCart = onRemoveItemFromCart
+            )
         }
     }
 }

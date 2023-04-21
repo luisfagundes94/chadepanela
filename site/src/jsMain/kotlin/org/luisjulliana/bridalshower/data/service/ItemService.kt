@@ -31,4 +31,24 @@ class ItemService {
         return window.api.get(url)
     }
 
+    suspend fun listItemsFromLocalDatabase() = window.api.get("list?ownerId=${fetchOwnerId()}")
+
+    suspend fun addItemToLocalDatabase(item: ByteArray) = window.api.post(
+        apiPath = "addItem?ownerId=${fetchOwnerId()}",
+        body = item
+    )
+
+    suspend fun removeAllItemsFromLocalDatabase() = window.api.delete(
+        apiPath = "removeAllItems?ownerId=${fetchOwnerId()}"
+    )
+
+    suspend fun removeItemFromLocalDatabase(itemId: String) = window.api.delete(
+        apiPath = "remove?ownerId=${fetchOwnerId()}&itemId=$itemId"
+    )
+
+    private suspend fun fetchOwnerId() = window.localStorage.getItem("id") ?: run {
+        window.api.get("id")!!.decodeToString().also {
+            window.localStorage.setItem("id", it)
+        }
+    }
 }

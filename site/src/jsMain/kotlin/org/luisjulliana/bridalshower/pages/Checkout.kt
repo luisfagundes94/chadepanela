@@ -1,6 +1,6 @@
 package org.luisjulliana.bridalshower.pages
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import org.luisjulliana.bridalshower.components.layouts.PageLayout
 import com.luisjulliana.bridalshower.domain.enums.CategoryType
 import com.luisjulliana.bridalshower.domain.enums.ItemStatus
@@ -13,7 +13,9 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
+import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.luisjulliana.bridalshower.components.widgets.Cart
@@ -24,29 +26,14 @@ import org.luisjulliana.bridalshower.di.KoinFactory
 @Page
 @Composable
 fun Checkout() {
-    val viewModel = KoinFactory.checkoutViewModel
-    val cartItems = listOf(
-        Item(
-            "1",
-            "Ouro",
-            "https://maisretorno.com/_next/image?url=https%3A%2F%2Fmedia.maisretorno.com%2Fportal%2Fwp-content%2Fuploads%2F2022%2F02%2Fouro-envato.jpg&w=3840&q=75",
-            "5777",
-            "",
-            categoryType = CategoryType.LIVING_ROOM,
-            status = ItemStatus.AVAILABLE,
-            5
-        ),
-        Item(
-            "1",
-            "Ouro",
-            "https://maisretorno.com/_next/image?url=https%3A%2F%2Fmedia.maisretorno.com%2Fportal%2Fwp-content%2Fuploads%2F2022%2F02%2Fouro-envato.jpg&w=3840&q=75",
-            "5777",
-            "",
-            categoryType = CategoryType.LIVING_ROOM,
-            status = ItemStatus.AVAILABLE,
-            5
-        ),
-    )
+    val viewModel = remember { KoinFactory.checkoutViewModel }
+    val isCartEmpty = remember { mutableStateOf(false) }
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(true, isCartEmpty.value) {
+        viewModel.listCartItems()
+    }
+
     PageLayout("") {
         Row(
             horizontalArrangement = Arrangement.Center,
@@ -59,9 +46,25 @@ fun Checkout() {
                 )
             }
             DivContainer {
-                Cart(
-                    items = cartItems
-                )
+                when {
+                    uiState.hasError -> SpanText(
+                        text = "Erro",
+                        modifier = Modifier.padding(5.em)
+                    )
+
+                    uiState.isEmpty -> SpanText(
+                        text = "Carrinho vazio",
+                        modifier = Modifier.padding(5.em)
+                    )
+
+                    uiState.items.isNotEmpty() -> Cart(
+                        items = uiState.items,
+                        onEmptyCartClick = {
+                            viewModel.emptyCart()
+                            isCartEmpty.value = true
+                        }
+                    )
+                }
             }
         }
     }
