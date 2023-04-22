@@ -1,5 +1,6 @@
 site:
   title: "Bridalshower"
+  routePrefix: "chadepanela"
 
 server:
   files:
@@ -9,6 +10,6 @@ server:
       api: "build/libs/bridalshower.jar"
     prod:
       script: "build/distributions/bridalshower.js"
-      siteRoot: ".kobweb/site"
+      siteRoot: "../docs"
 
   port: 8080
