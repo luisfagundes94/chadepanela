@@ -9,10 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.bson.Document
 import org.bson.conversions.Bson
+import org.luisjulliana.bridalshower.BuildConfig
 import org.luisjulliana.bridalshower.mapper.ItemMapper.mapToDomain
 
-private const val CONNECTION_STRING =
-    "mongodb+srv://luisfelipecf94:sEcret01@cluster0.qrmnt0q.mongodb.net/?retryWrites=true&w=majority"
+private const val CONNECTION_STRING = BuildConfig.MONDODBCONNECTIONSTRING
 private const val DATABASE_NAME = "chadepanela"
 private const val COLLECTION_NAME = "items"
 

@@ -1,5 +1,7 @@
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
+import java.io.FileNotFoundException
+import java.util.*
 
 @Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
@@ -11,6 +13,8 @@ plugins {
 
 group = "org.luisjulliana.bridalshower"
 version = "1.0-SNAPSHOT"
+
+setUpBuildConfigProperties()
 
 kobweb {
     app {
@@ -61,4 +65,30 @@ kotlin {
              }
         }
     }
+}
+
+fun setUpBuildConfigProperties() {
+    val properties = Properties()
+    val configFile = File("config.properties")
+    if (configFile.exists()) {
+        configFile.reader().use(properties::load)
+    } else {
+        throw FileNotFoundException("config.properties not found: $configFile")
+    }
+
+    val buildConfigPackage = "org.luisjulliana.bridalshower"
+    val buildConfigContent = buildString {
+        appendLine("package $buildConfigPackage")
+        appendLine("")
+        appendLine("object BuildConfig {")
+        properties.forEach { key, value ->
+            appendLine("    const val ${key.toString().toUpperCase()} = \"$value\"")
+        }
+        appendLine("}")
+    }
+
+    val buildConfigDir = File("$projectDir/src/jvmMain/kotlin/org/luisjulliana/bridalshower/envProperties")
+    buildConfigDir.mkdirs()
+    val buildConfigFile = File(buildConfigDir, "BuildConfig.kt")
+    buildConfigFile.writeText(buildConfigContent)
 }
