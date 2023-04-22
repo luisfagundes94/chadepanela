@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.bson.Document
 import org.bson.conversions.Bson
-import org.luisjulliana.bridalshower.BuildConfig
+import org.luisjulliana.bridalshower.envProperties.BuildConfig
 import org.luisjulliana.bridalshower.mapper.ItemMapper.mapToDomain
 
 private const val CONNECTION_STRING = BuildConfig.MONDODBCONNECTIONSTRING

@@ -2,7 +2,7 @@ package org.luisjulliana.bridalshower.service
 
 import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.SimpleEmail
-import org.luisjulliana.bridalshower.BuildConfig
+import org.luisjulliana.bridalshower.envProperties.BuildConfig
 
 class EmailService {
     fun send(
@@ -58,8 +58,8 @@ class EmailService {
 
     private companion object {
         const val HOST_NAME = "smtp.gmail.com"
-        const val FROM_EMAIL = BuildConfig.EMAIL
-        const val FROM_PASSWORD = BuildConfig.EMAILPASSWORD
+        const val FROM_EMAIL = "luisfelipecf94@gmail.com"
+        const val FROM_PASSWORD = "mngpzyxhtqkhbqez"
         const val PORT = 465
         const val SUBJECT = "Chá de Panela Julliana e Luís Felipe"
     }
