@@ -69,14 +69,15 @@ kotlin {
 
 fun setUpBuildConfigProperties() {
     val properties = Properties()
-    val configFile = File("config.properties")
+    val configFile = File("F:\\KobwebProjects\\bridalshower\\site\\config.properties")
+    println(configFile.absolutePath)
     if (configFile.exists()) {
         configFile.reader().use(properties::load)
     } else {
-        throw FileNotFoundException("config.properties not found: $configFile")
+        println("config.properties not found: $configFile")
     }
 
-    val buildConfigPackage = "org.luisjulliana.bridalshower"
+    val buildConfigPackage = "org.luisjulliana.bridalshower.envProperties"
     val buildConfigContent = buildString {
         appendLine("package $buildConfigPackage")
         appendLine("")
@@ -87,7 +88,7 @@ fun setUpBuildConfigProperties() {
         appendLine("}")
     }
 
-    val buildConfigDir = File("$projectDir/src/jvmMain/kotlin/org/luisjulliana/bridalshower/envProperties")
+    val buildConfigDir = File("$projectDir/src/jvmMain/kotlin/org/luisjulliana/bridalshower/envProperties/")
     buildConfigDir.mkdirs()
     val buildConfigFile = File(buildConfigDir, "BuildConfig.kt")
     buildConfigFile.writeText(buildConfigContent)
